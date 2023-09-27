@@ -18,6 +18,13 @@ const writeUserData = (userId, name, email, balance) => {
       balance: balance
     });
 };
+/* 
+  set(userRef, {
+      username: name,
+      email: email,
+      
+    });
+*/
 
 const readUserData = async (userId) => {
     const userRef = ref(getDatabase(), `users/${userId}`);
@@ -30,4 +37,15 @@ const readUserData = async (userId) => {
     }
 };
 
-export { saveUserDataToDatabase, writeUserData, readUserData };
+const readAllUsers = async () => {
+  const allUsers = ref(getDatabase(), `users`);
+  const snapshot = await get(allUsers);
+  if (snapshot.exists()) {
+    return snapshot.val();
+  } else {
+    console.log('No users in database');
+    return null;
+  }
+};
+
+export { saveUserDataToDatabase, writeUserData, readUserData, readAllUsers };

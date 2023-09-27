@@ -1,12 +1,14 @@
 import React from 'react'
 import { useState } from 'react';
-import { getAuth, auth, signInWithEmailAndPassword } from './firebaseConfig';
+import { auth, signInWithEmailAndPassword } from './firebaseConfig';
+import { useNavigate } from 'react-router-dom';
 
 
 
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -17,6 +19,7 @@ function Login() {
             console.log('Logged in user:', user.email);
             console.log(JSON.stringify(user))
             alert(`Logged in user: ${user.email}`);
+            navigate('/');
         } catch (error) {
             console.error('Login failed:', error.message);
             setEmail('');

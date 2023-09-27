@@ -7,16 +7,7 @@ function Deposit({ uid }){
   
 
     const handleSubmit = async e => {
-        // const userRef = db.collection('users').doc('peter@mit.edu');
-        // const doc = await userRef.get();
-        // if (!doc.exists) {
-        //   console.log('No such document!');
-        // } else {
-        //   console.log('Document data:', doc.data());
-        // }
-        // console.log('button is clicked');
-        // alert(`your status is: ${status}`)
-        // const userDetails = await readUserData(uid);
+
         e.preventDefault();
         const userDetails = await readUserData(uid);
         const newBalance = userDetails.balance + parseFloat(amount);
@@ -28,7 +19,7 @@ function Deposit({ uid }){
             password: userDetails.password,
             balance: newBalance
         })
-        setStatus(`Your balance is: ${userDetails.balance}`);
+        setStatus(`Your balance is: ${newBalance}`);
       };
   
       return (

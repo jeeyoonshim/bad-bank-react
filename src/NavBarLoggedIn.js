@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 
-
-function NavBarLoggedIn() {
+function NavBarLoggedIn({ user }) {
 
 
   return (
@@ -48,11 +47,16 @@ function NavBarLoggedIn() {
             </a>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="/alldata/">
+            <a className="nav-link" href="/AllData/">
               AllData
             </a>
           </li>
         </ul>
+      </div>
+      <div className="navbar-nav ml-auto">
+        <span className="nav-item nav-link">
+          Logged in as: {user.displayName || user.email}
+        </span>
       </div>
     </nav>
   );

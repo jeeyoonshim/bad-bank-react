@@ -2,7 +2,7 @@ import { React, useState } from "react";
 import { readUserData } from "./firebaseDatabase";
 
 function Balance({ uid }){
-    const [show, setShow] = useState(true);
+
     const [status, setStatus] = useState('');
     const [balance, setBalance] = useState('');
   

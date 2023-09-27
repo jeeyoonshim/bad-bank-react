@@ -8,6 +8,7 @@ import Logout from './Logout';
 import Home from './Home';
 import Deposit from './Deposit';
 import Withdraw from './Withdraw';
+import AllData from './AllData'
 import NavBarLoggedIn from './NavBarLoggedIn';
 import NavBarLoggedOut from './NavBarLoggedOut';
 
@@ -39,7 +40,7 @@ function App() {
 
   return (
     <div>
-      {user ? <NavBarLoggedIn /> : <NavBarLoggedOut />}
+      {user ? <NavBarLoggedIn user={user} /> : <NavBarLoggedOut />}
       <Router>
         <Routes>
           {user ? (
@@ -50,6 +51,7 @@ function App() {
               <Route path="/Balance/" element={<Balance uid={user.uid} />} />
               <Route path="/Deposit/" element={<Deposit uid={user.uid} />} />
               <Route path="/Withdraw/" element={<Withdraw uid={user.uid} />} />
+              <Route path="/AllData" element={<AllData />} />
             </>
           ) : (
             <>
