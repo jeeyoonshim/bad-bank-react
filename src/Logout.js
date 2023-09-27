@@ -16,9 +16,11 @@ function Logout({ onLogout }) {
   };
 
   return (
+    <div className="container mt-4 mb-4">
     <button className="btn btn-primary" onClick={handleLogout}>
       Logout
     </button>
+    </div>
   );
 }
 

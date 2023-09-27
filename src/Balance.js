@@ -19,11 +19,11 @@ function Balance({ uid }){
         const userDetails = await readUserData(uid);
         console.log(userDetails);
         console.log(userDetails.balance)
-        setStatus(`Your balance is: ${userDetails.balance}`);
+        setStatus(`Your balance is for ${userDetails.email} is: ${userDetails.balance}`);
       };
   
       return (
-        <>
+        <div className="container mt-4 mb-4">
           <h2>Balance</h2>
           <form>
             <div className="form-group">
@@ -32,11 +32,11 @@ function Balance({ uid }){
             <button type="button" className="btn btn-primary" onClick={handleSubmit}>
               Check
             </button>
-            <p>
+            <p className="pt-2 pb-2">
                 {status}
             </p>
           </form>
-        </>
+        </div>
       );
     }
   

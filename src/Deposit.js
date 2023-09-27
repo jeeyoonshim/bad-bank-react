@@ -19,11 +19,11 @@ function Deposit({ uid }){
             password: userDetails.password,
             balance: newBalance
         })
-        setStatus(`Your balance is: ${newBalance}`);
+        setStatus(`Deposit successful. Your balance is: ${newBalance} for user ${userDetails.email}`);
       };
   
       return (
-        <>
+        <div className="container mt-4 mb-4">
           <h2>Deposit</h2>
           <form onSubmit={handleSubmit}>
             <div className="form-group">
@@ -38,11 +38,11 @@ function Deposit({ uid }){
             <button type="submit" className="btn btn-primary" >
               Submit
             </button>
-            <p>
+            <p className="pt-2 pb-2">
                 {status}
             </p>
           </form>
-        </>
+        </div>
       );
     }
   

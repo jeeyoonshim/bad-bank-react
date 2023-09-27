@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 
 function NavBarLoggedIn({ user }) {
-
+  
+  console.log('User in NavBarLoggedIn:', user);
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">

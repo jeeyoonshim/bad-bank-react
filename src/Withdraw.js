@@ -29,7 +29,7 @@ function Withdraw({ uid }) {
   };
 
   return (
-    <>
+    <div className="container mt-4 mb-4">
       <h2>Withdraw</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
@@ -45,9 +45,11 @@ function Withdraw({ uid }) {
         <button type="submit" className="btn btn-primary">
           Submit
         </button>
-        <p>{status}</p>
+        <p className="pt-2 pb-2">
+          {status}
+        </p>
       </form>
-    </>
+    </div>
   );
 }
 

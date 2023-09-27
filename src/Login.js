@@ -27,7 +27,7 @@ function Login() {
     };
 
     return (
-      <>
+      <div className="container mt-4 mb-4">
           <h2>Login</h2>
           <form onSubmit={handleSubmit}>
               <div className="form-group">
@@ -52,7 +52,7 @@ function Login() {
               </div>
               <button type="submit" className="btn btn-primary">Submit</button>
           </form>
-      </>
+      </div>
     )
 }
 

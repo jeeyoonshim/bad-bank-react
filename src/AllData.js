@@ -16,7 +16,8 @@ function AllData(){
       };
     
 
-    return (<>
+    return (
+    <div className="container mt-4 mb-4">
       <h2>AllData</h2>
       <form>
         <div className="form-group">
@@ -25,6 +26,8 @@ function AllData(){
         <button type="button" className="btn btn-primary" onClick={handleSubmit}>
           All Users
         </button>
+        <br />
+        <br />
         <table className="table">
           <thead>
             <tr>
@@ -44,7 +47,8 @@ function AllData(){
           </tbody>
         </table>
       </form>
-    </>);
+    </div>
+    );
 };
 
 
