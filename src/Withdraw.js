@@ -1,37 +1,70 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { readUserData, saveUserDataToDatabase } from "./firebaseDatabase";
 
 function Withdraw({ uid }) {
   const [status, setStatus] = useState('');
   const [amount, setAmount] = useState('');
+  const [accountType, setAccountType] = useState('checking'); // Default to checking
+  const [accountNumber, setAccountNumber] = useState('');
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const userData = await readUserData(uid);
+      if (userData && userData.accountNumber) {
+        setAccountNumber(userData.accountNumber);
+      }
+    };
+
+    fetchUserData();
+  }, [uid]);
+
+  const handleAccountChange = (e) => {
+    setAccountType(e.target.value);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     const userDetails = await readUserData(uid);
-    console.log(userDetails)
+    const currentBalance = userDetails.balance[accountType];
     const withdrawAmount = parseFloat(amount);
-    if(withdrawAmount > userDetails.balance) {
-        setStatus('Error: Withdraw amount exceeds available balance.')
-        return;
+  
+    if (withdrawAmount > currentBalance) {
+      setStatus('Error: Withdraw amount exceeds available balance.');
+      return;
     }
-    const newBalance = userDetails.balance - withdrawAmount;
-
+  
+    const newBalance = {
+      ...userDetails.balance,
+      [accountType]: currentBalance - withdrawAmount
+    };
+  
     await saveUserDataToDatabase(uid, {
       email: userDetails.email,
       password: userDetails.password,
-      balance: newBalance
+      checkingBalance: newBalance.checking,
+      savingBalance: newBalance.saving
     });
-
-    setStatus(`Withdraw successful. Your new balance is: ${newBalance}`);
-    console.log(userDetails.email)
-    console.log(`Withdraw successful. Your new balance is: ${newBalance} for user ${userDetails.email}`)
+  
+    setStatus(`Withdraw successful. Your new ${accountType} balance is: ${newBalance[accountType]}`);
   };
 
   return (
     <div className="container mt-4 mb-4">
       <h2>Withdraw</h2>
+      <h5>For Account {accountNumber}</h5>
       <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label>Select Account Type:</label>
+          <select
+            className="form-control"
+            value={accountType}
+            onChange={handleAccountChange}
+          >
+            <option value="checking">Checking</option>
+            <option value="saving">Saving</option>
+          </select>
+        </div>
         <div className="form-group">
           <label>Withdraw Amount:</label>
           <input

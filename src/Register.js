@@ -2,10 +2,12 @@ import { useState } from 'react';
 import React from 'react';
 import { auth, createUserWithEmailAndPassword } from './firebaseConfig';
 import { saveUserDataToDatabase } from './firebaseDatabase.js'; 
+import { useNavigate } from 'react-router-dom';
 
 function Register() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -18,11 +20,15 @@ function Register() {
             await saveUserDataToDatabase(user.uid, {
               email: email,
               password: password,
-              balance: 0 // Initial balance 0
+              balance: {
+                checking: 0,
+                saving: 0
+                }
             });
 
             console.log('User registered successfully:', user);
             alert(`User registered successfully: ${user.email}`);
+            navigate('/');
         } catch (error) {
             console.error('Registration failed:', error.message);
         }

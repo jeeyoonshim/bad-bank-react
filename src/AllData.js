@@ -1,22 +1,36 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { readAllUsers } from "./firebaseDatabase";
 
-function AllData(){
-  const [data, setData] = useState([]);   
+function AllData() {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-    const handleSubmit = async e => {
-        console.log('button is clicked')
-        const allUserDetails = await readAllUsers();
-        if (allUserDetails) {
-          const usersArray = Object.values(allUserDetails);
-          setData(usersArray);
-        } else {
-          setData([]);
-        }
-      };
-    
+  const handleSubmit = async () => {
+    setLoading(true);
+    try {
+      console.log('button is clicked')
+      const allUserDetails = await readAllUsers();
+      if (allUserDetails) {
+        const usersArray = Object.values(allUserDetails).map(user => {
+          return {
+            id: user.accountNumber, // Use account number as ID for simplicity
+            email: user.email,
+            checkingBalance: user.balance.checking,
+            savingBalance: user.balance.saving
+          };
+        });
+        setData(usersArray);
+      } else {
+        setData([]);
+      }
+    } catch (error) {
+      console.error('Error fetching all users:', error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    return (
+  return (
     <div className="container mt-4 mb-4">
       <h2>AllData</h2>
       <form>
@@ -28,28 +42,33 @@ function AllData(){
         </button>
         <br />
         <br />
-        <table className="table">
-          <thead>
-            <tr>
-              <th>User ID</th>
-              <th>Email</th>
-              <th>Balance</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((user, index) => (
-              <tr key={index}>
-                <td>{index + 1}</td>
-                <td>{user.email}</td>
-                <td>{user.balance}</td>
+        {loading ? (
+          <p>Loading...</p>
+        ) : (
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Account Number</th>
+                <th>Email</th>
+                <th>Checking Balance</th>
+                <th>Saving Balance</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {data.map((user, index) => (
+                <tr key={index}>
+                  <td>{user.id}</td>
+                  <td>{user.email}</td>
+                  <td>{user.checkingBalance}</td>
+                  <td>{user.savingBalance}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </form>
     </div>
-    );
-};
-
+  );
+}
 
 export default AllData;
